@@ -3,6 +3,8 @@ Trabalho Final
 Julia Marques, Letícia Dufloth, Pedro Paulo Polastri e Rodrigo Prates
 18/07/2020
 
+### Introdução
+
 O presente trabalho se configura como o trabalho final da disciplina de
 Análise e Visualização de Dados com R, do Curso Superior de
 Administração Pública da Escola de Governo Professor Paulo Neves de
