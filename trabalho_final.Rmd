@@ -1,0 +1,21 @@
+---
+title: "Trabalho Final"
+author: "Julia Marques, Letícia Dufloth, Pedro Paulo Polastri e Rodrigo Prates"
+date: "18/07/2020"
+output: github_document
+---
+
+O presente trabalho se configura como o trabalho final da disciplina de Análise e Visualização de Dados com R, do Curso Superior de Administração Pública da Escola de Governo Professor Paulo Neves de Carvalho da Fundação João Pinheiro, referente ao primeiro semestre de 2020. Neste trabalho, temos por objetivo analisar dados relativos às bolsas concedidas pelo ProUni (Programa Universidade para Todos), bem como o perfil de seus beneficiários.
+
+O ProUni é um programa do Ministério da Educação que concede bolsas de estudo em instituições de ensino superior particulares. Para as bolsas integrais, os alunos precisam comprovar renda familiar bruta mensal per capita de até 1,5 salário mínimo. Para as bolsas parciais (50%), os estudantes têm que comprovar renda familiar bruta mensal per capita de até 3 salários mínimos. Além disso, é necessário que o aluno não tenha diploma de ensino superior, e que tenha realizado o Exame Nacional do Ensino Médio (ENEM) mais recente (BRASIL, 2020).
+
+As questões que orientarão as análises do presente trabalho são:
+
+- Qual o perfil demográfico dos bolsistas, no que se refere a gênero, raça, faixa etária e existência de deficiência?
+
+- Como se dá a distribuição geográfica dos bolsistas por unidade federativa?
+
+- Quais os 10 cursos que recebem mais bolsistas ProUni?
+
+### Referências
+BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para Todos**. Disponível em: <http://prouniportal.mec.gov.br/>. Acesso em 18 jul. 2020.
