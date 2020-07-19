@@ -4,6 +4,13 @@ author: "Julia Marques, Letícia Dufloth, Pedro Paulo Polastri e Rodrigo Prates"
 date: "18/07/2020"
 output: github_document
 ---
+```{r, include=FALSE}
+library(tidyverse)
+
+df <- read.csv("data/pda-prouni-2019.csv", h = T, sep = ";", encoding = "UTF-8")
+  #Base de dados a ser utilizada com informações de bolsistas do ProUni
+```
+
 ### Introdução
 
 O presente trabalho se configura como o trabalho final da disciplina de Análise e Visualização de Dados com R, do Curso Superior de Administração Pública da Escola de Governo Professor Paulo Neves de Carvalho da Fundação João Pinheiro, referente ao primeiro semestre de 2020. Neste trabalho, temos por objetivo analisar dados relativos às bolsas concedidas pelo ProUni (Programa Universidade para Todos), bem como o perfil de seus beneficiários.
