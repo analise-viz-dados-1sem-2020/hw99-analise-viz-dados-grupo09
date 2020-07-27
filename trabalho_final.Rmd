@@ -5,10 +5,63 @@ date: "18/07/2020"
 output: github_document
 ---
 ```{r, include=FALSE}
+# Espaco para instalacao e library de pacotes
+
 library(tidyverse)
 
+# Base de dados a ser utilizada com informações de bolsistas do ProUni
+
 df <- read.csv("data/pda-prouni-2019.csv", h = T, sep = ";", encoding = "UTF-8")
-  #Base de dados a ser utilizada com informações de bolsistas do ProUni
+
+# Mudando o nome das colunas
+
+names(df) <- c("Ano_de_Concessao_da_Bolsa", "Codigo_da_Universidade", "Universidade",
+                  "Tipo_de_bolsa", "Modalidade_de_Ensino", "Curso", "Turno", "CPF_do_Beneficiario",
+                  "Sexo", "Raca", "Data_de_Nascimento", "Deficiente_Fisico", "Regiao", "UF", "Municipio")
+
+# Ajustando o tipo dos dados
+str(df)
+df$Sexo[(df$Sexo)=="M"] <- "Masculino"
+df$Sexo[(df$Sexo)=="F"] <- "Feminino"
+head(df$Sexo)
+
+df$Deficiente_Fisico[(df$Deficiente_Fisico)=="S"] <- "Sim"
+df$Deficiente_Fisico[(df$Deficiente_Fisico)=="N"] <- "Nao"
+head(df$Deficiente_Fisico)
+
+# Transformar os dados em factor permite verificar quantos niveis a variavel tem
+# Fazendo isso apenas com as variaveis com muitos niveis
+df$Universidade <- as.factor(df$Universidade)
+df$Tipo_de_bolsa <- as.factor(df$Tipo_de_bolsa)
+df$Curso <- as.factor(df$Curso)
+df$Municipio <- as.factor(df$Municipio)
+df$Data_de_Nascimento <- as.Date(df$Data_de_Nascimento, format = "%d/%m/%Y")
+str(df)
+
+# Calculando a idade
+df$Idade <- as.numeric(difftime(c("2019-12-31"),df$Data_de_Nascimento, units = "weeks"))/52.25
+df$Idade <- floor(df$Idade)
+
+# Criando o df sem o outlier (pessoa com 11 anos)
+df2 <- df[(-219394),]
+
+# Gerando faixas etarias
+summary(df$Idade)
+df$Faixa_Etaria <- cut(df$Idade, c(10,15,20,25,30,35,40,45,50,55,60,65,70,100), 
+                          labels = c("11 a 15", "16 a 20","21 a 25", "26 a 30",
+                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", "51 a 55",                                     "56 a 60", "61 a 65", "66 a 70", "71+" ))
+
+df2$Faixa_Etaria <- cut(df2$Idade, c(15,20,25,30,35,40,45,50,55,60,65,70,100), 
+                          labels = c("16 a 20","21 a 25", "26 a 30",
+                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", "51 a 55",
+                                     "56 a 60", "61 a 65", "66 a 70", "71+" ))
+
+# Identificando os valores NA e removendo da base
+df <- na.omit(df)
+
+df2 <- na.omit(df2)
+
+
 ```
 
 ### Introdução
@@ -24,6 +77,15 @@ As questões que orientarão as análises do presente trabalho são:
 - Como se dá a distribuição geográfica dos bolsistas por unidade federativa?
 
 - Quais os 10 cursos que recebem mais bolsistas ProUni?
+
+### Perfil dos bolsistas
+
+```{r}
+
+```
+
+
+Os dados disponíveis na base permitem fazer análises interessantes quanto ao perfil dos beneficiários acerca do sexo, da faixa etária, da raça e da existência de deficiência física.
 
 ### Referências
 BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para Todos**. Disponível em: <http://prouniportal.mec.gov.br/>. Acesso em 18 jul. 2020.
