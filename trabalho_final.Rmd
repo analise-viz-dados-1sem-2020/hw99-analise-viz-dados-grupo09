@@ -7,7 +7,7 @@ output: github_document
 ```{r, include=FALSE}
 # Espaco para instalacao e library de pacotes
 
-library(tidyverse)
+library(tidyverse); library(forcats)
 
 # Base de dados a ser utilizada com informações de bolsistas do ProUni
 
@@ -18,16 +18,6 @@ df <- read.csv("data/pda-prouni-2019.csv", h = T, sep = ";", encoding = "UTF-8")
 names(df) <- c("Ano_de_Concessao_da_Bolsa", "Codigo_da_Universidade", "Universidade",
                   "Tipo_de_bolsa", "Modalidade_de_Ensino", "Curso", "Turno", "CPF_do_Beneficiario",
                   "Sexo", "Raca", "Data_de_Nascimento", "Deficiente_Fisico", "Regiao", "UF", "Municipio")
-
-# Ajustando o tipo dos dados
-str(df)
-df$Sexo[(df$Sexo)=="M"] <- "Masculino"
-df$Sexo[(df$Sexo)=="F"] <- "Feminino"
-head(df$Sexo)
-
-df$Deficiente_Fisico[(df$Deficiente_Fisico)=="S"] <- "Sim"
-df$Deficiente_Fisico[(df$Deficiente_Fisico)=="N"] <- "Nao"
-head(df$Deficiente_Fisico)
 
 # Transformar os dados em factor permite verificar quantos niveis a variavel tem
 # Fazendo isso apenas com as variaveis com muitos niveis
@@ -106,13 +96,9 @@ Ressalta-se que, nos gráficos em que a variável faixa etária não estiver sen
 
 ```{r, echo=FALSE}
 
-pdf("figures/faixaetaria.pdf", width = 11, height = 10)
 barplot(freq.fxet, main = "Número de beneficiários por faixa etária", col = "brown3", ylim = c(0, 99000))
-dev.off()
 
-pdf("figures/faixaetaria2.pdf", width = 11, height = 10)
 barplot(freq.fxet2, main = "Número de beneficiários por sexo e faixa etária (sem outlier)", col = "brown3", ylim = c(0, 99000))
-dev.off()
 
 ```
 
@@ -122,15 +108,11 @@ Também é possível fazer visualizações a partir da combinação da variável
 
 ```{r, echo=FALSE}
 
-pdf("figures/sexo_faixaetaria.pdf", width = 11, height = 8)
 barplot(freq.sex.fxet, main = "Número de beneficiários por sexo e faixa etária", beside = TRUE, col = c("red", "green"))
 legend("topright", legend = c("Feminino", "Masculino"), fill = c("red", "green"))
-dev.off()
 
-pdf("figures/sexo_faixaetaria2.pdf", width = 10, height = 8)
 barplot(freq.sex.fxet2, main = "Número de beneficiários por sexo e faixa etária (sem outlier)", beside = TRUE, col = c("red", "green"))
 legend("topright", legend = c("Feminino", "Masculino"), fill = c("red", "green"))
-dev.off()
 
 ```
 
@@ -140,9 +122,7 @@ No que se refere à variável "sexo" analisada individualmente, observa-se a pre
 
 ```{r, echo=FALSE}
 
-pdf("figures/sexo.pdf", width = 10, height = 8)
-barplot(freq.sex, horiz = TRUE, main = "Número de beneficiários por sexo", col = c("red", "green"))
-dev.off()
+barplot(freq.sex, main = "Número de beneficiários por sexo", col = c("red", "green"))
 
 ```
 
@@ -150,10 +130,8 @@ Ao relacionar as variáveis sexo e raça, observamos que as mulheres beneficiár
 
 ```{r, echo=FALSE}
 
-pdf("figures/sexo_raca.pdf", width = 10, height = 8)
 barplot(freq.sex.raca, main = "Número de beneficiários por sexo e raça", beside = TRUE, col = c("red","green"))
 legend("topright", legend = c("Feminino", "Masculino"), fill = c("red","green"))
-dev.off()
 
 ```
 
@@ -163,9 +141,7 @@ Ao analisar a variável raça isoladamente, verifica-se que a raça parda é a p
 
 ```{r, echo=FALSE}
 
-pdf("figures/raca.pdf", width = 10, height = 8)
 barplot(freq.raca, main = "Número de beneficiários por raça", ylim = c(0, 99000), col = c("chartreuse4", "seagreen", "mediumvioletred", "navyblue", "dodgerblue", "turquoise2"))
-dev.off()
 
 ```
 
@@ -173,9 +149,8 @@ Quanto à análise de dados referentes aos beneficiários com deficiência físi
 
 ```{r, echo=FALSE}
 
-pdf("figures/def_fisico.pdf", width = 10, height = 8)
-barplot(freq.def, horiz = TRUE, main = "Beneficiário é deficiente físico", col = c("blue", "orange"))
-dev.off()
+barplot(freq.def, main = "Beneficiário é deficiente físico", col = c("blue", "orange"))
+legend("topright", legend = c("Sim", "Não"), fill = c("blue","orange"))
 
 ```
 
@@ -184,7 +159,7 @@ Dessa forma, entende-se ser interessante filtrar somente os beneficiários com d
 ```{r, echo=FALSE}
 
 df %>% 
-  filter(Deficiente_Fisico == "Sim") %>%
+  filter(Deficiente_Fisico == "S") %>%
   mutate(Raca = fct_infreq(Raca)) %>% 
   ggplot()+
   geom_bar(aes(x = Raca), fill = c("seagreen", "dodgerblue", "turquoise2", "chartreuse4"))+
@@ -203,7 +178,7 @@ Também é possível observar, ao analisar o gráfico referente ao sexo dos bene
 ```{r, echo=FALSE}
 
 df %>% 
-    filter(Deficiente_Fisico == "Sim") %>%
+    filter(Deficiente_Fisico == "S") %>%
     mutate(Sexo = fct_infreq(Sexo)) %>% 
     ggplot()+
     geom_bar(aes(x = Sexo), fill = c("green", "red"))+

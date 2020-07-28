@@ -50,11 +50,7 @@ Ressalta-se que, nos gráficos em que a variável faixa etária não estiver
 sendo analisada, o outlier será incluído, pois pressupõe-se que a única
 informação errada referente a essa pessoa é a idade.
 
-    ## png 
-    ##   2
-
-    ## png 
-    ##   2
+![](trabalho_final_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->![](trabalho_final_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
 
 Observa-se que a maior parte dos beneficiários está na faixa etária
 entre 16 a 20 anos, e o número de beneficiários a cada faixa etária
@@ -63,11 +59,7 @@ seguinte vai diminuindo.
 Também é possível fazer visualizações a partir da combinação da variável
 faixa etária com a variável sexo:
 
-    ## png 
-    ##   2
-
-    ## png 
-    ##   2
+![](trabalho_final_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->![](trabalho_final_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
 
 Nota-se, nesses gráficos, um comportamento semelhante aos gráficos
 anteriores, sendo que o número de mulheres por faixa etária é quase
@@ -77,15 +69,13 @@ etárias de 66 a 70 anos e na de 71 anos ou mais.
 No que se refere à variável “sexo” analisada individualmente, observa-se
 a predominância de mulheres beneficiárias:
 
-    ## png 
-    ##   2
+![](trabalho_final_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 Ao relacionar as variáveis sexo e raça, observamos que as mulheres
 beneficiárias predominam em todas as raças, exceto quando a raça não foi
 informada (nesse caso, são 4 homens e 1 mulher):
 
-    ## png 
-    ##   2
+![](trabalho_final_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 Sendo assim, percebe-se que a maior parte dos beneficiários é mulher
 parda, seguida de mulheres brancas, homens pardos e homens brancos.
@@ -94,22 +84,30 @@ Ao analisar a variável raça isoladamente, verifica-se que a raça parda é
 a predominante dentre os beneficiários, seguida pela raça branca, preta,
 amarela e indígena:
 
-    ## png 
-    ##   2
+![](trabalho_final_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 Quanto à análise de dados referentes aos beneficiários com deficiência
 física, nota-se que eles são uma pequena parcela do total de
 beneficiários:
 
-    ## png 
-    ##   2
+![](trabalho_final_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 Dessa forma, entende-se ser interessante filtrar somente os
 beneficiários com deficiência para fazer algumas análises combinadas
-com outras variáveis. No que se refere à raça, vemos que a predominante
+com outras variáveis. No que se refere à raça, vê-se que a predominante
 dentre os beneficiários é a branca, seguida pela parda, preta e amarela:
 
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+Verifica-se que a raça branca predomina dentre os beneficiários com
+deficiência, embora a raça predominante analisada individualmente seja a
+parda.
+
+Também é possível observar, ao analisar o gráfico referente ao sexo dos
+beneficiários com deficiência, uma dissonância quanto à variável sexo
+analisada isoladamente, haja vista que o sexo masculino predomina:
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ### Referências
 
