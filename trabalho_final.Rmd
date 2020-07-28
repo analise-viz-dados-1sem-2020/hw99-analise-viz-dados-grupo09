@@ -206,7 +206,7 @@ df %>%
     filter(Deficiente_Fisico == "Sim") %>%
     mutate(Sexo = fct_infreq(Sexo)) %>% 
     ggplot()+
-    geom_bar(aes(x = Sexo), fill = c("red", "green"))+
+    geom_bar(aes(x = Sexo), fill = c("green", "red"))+
     labs(x = "Sexo", y = "Número de beneficiários")+
     ggtitle("Beneficiários com deficiência física por sexo")+
     theme_bw() +
