@@ -53,8 +53,7 @@ df$Faixa_Etaria <- cut(df$Idade, c(10,15,20,25,30,35,40,45,50,55,60,65,70,100),
 
 df2$Faixa_Etaria <- cut(df2$Idade, c(15,20,25,30,35,40,45,50,55,60,65,70,100), 
                           labels = c("16 a 20","21 a 25", "26 a 30",
-                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", "51 a 55",
-                                     "56 a 60", "61 a 65", "66 a 70", "71+" ))
+                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", "51 a                                       55", "56 a 60", "61 a 65", "66 a 70", "71+" ))
 
 # Identificando os valores NA e removendo da base
 df <- na.omit(df)
@@ -80,12 +79,143 @@ As questões que orientarão as análises do presente trabalho são:
 
 ### Perfil dos bolsistas
 
-```{r}
+```{r, include=FALSE}
+
+# Tabelas de Frequencia para as caracteristicas individuais
+
+# Frequencia Absoluta
+freq.sex <- table(df$Sexo)
+freq.raca <- table(df$Raca)
+freq.fxet <- table(df$Faixa_Etaria)
+freq.fxet2 <- table(df2$Faixa_Etaria)
+freq.def <- table(df$Deficiente_Fisico)
+
+# Tabelas Cruzadas
+freq.sex.raca <- table(df$Sexo, df$Raca)
+freq.sex.fxet <- table(df$Sexo, df$Faixa_Etaria)
+freq.sex.fxet2 <- table(df2$Sexo, df2$Faixa_Etaria)
 
 ```
 
 
 Os dados disponíveis na base permitem fazer análises interessantes quanto ao perfil dos beneficiários acerca do sexo, da faixa etária, da raça e da existência de deficiência física.
+
+No que se refere à faixa etária, foi necessário criar dois tipos de gráficos. Isso porque verificou-se a existência de um outlier - constava na base de dados uma pessoa com 11 anos de idade, sendo que todos os outros beneficiários tinham 16 anos ou mais. Sendo assim, primeiramente será mostrado o gráfico com a inclusão do outlier e, posteriormente, será exibido o gráfico excluindo o outlier, para evidenciar a mudança na visualização.
+
+Ressalta-se que, nos gráficos em que a variável faixa etária não estiver sendo analisada, o outlier será incluído, pois pressupõe-se que a única informação errada referente a essa pessoa é a idade.
+
+```{r, echo=FALSE}
+
+pdf("figures/faixaetaria.pdf", width = 11, height = 10)
+barplot(freq.fxet, main = "Número de beneficiários por faixa etária", col = "brown3", ylim = c(0, 99000))
+dev.off()
+
+pdf("figures/faixaetaria2.pdf", width = 11, height = 10)
+barplot(freq.fxet2, main = "Número de beneficiários por sexo e faixa etária (sem outlier)", col = "brown3", ylim = c(0, 99000))
+dev.off()
+
+```
+
+Observa-se que a maior parte dos beneficiários está na faixa etária entre 16 a 20 anos, e o número de beneficiários a cada faixa etária seguinte vai diminuindo.
+
+Também é possível fazer visualizações a partir da combinação da variável faixa etária com a variável sexo:
+
+```{r, echo=FALSE}
+
+pdf("figures/sexo_faixaetaria.pdf", width = 11, height = 8)
+barplot(freq.sex.fxet, main = "Número de beneficiários por sexo e faixa etária", beside = TRUE, col = c("red", "green"))
+legend("topright", legend = c("Feminino", "Masculino"), fill = c("red", "green"))
+dev.off()
+
+pdf("figures/sexo_faixaetaria2.pdf", width = 10, height = 8)
+barplot(freq.sex.fxet2, main = "Número de beneficiários por sexo e faixa etária (sem outlier)", beside = TRUE, col = c("red", "green"))
+legend("topright", legend = c("Feminino", "Masculino"), fill = c("red", "green"))
+dev.off()
+
+```
+
+Nota-se, nesses gráficos, um comportamento semelhante aos gráficos anteriores, sendo que o número de mulheres por faixa etária é quase sempre maior do que o de homens. Os homens predominam apenas nas faixas etárias de 66 a 70 anos e na de 71 anos ou mais.
+
+No que se refere à variável "sexo" analisada individualmente, observa-se a predominância de mulheres beneficiárias:
+
+```{r, echo=FALSE}
+
+pdf("figures/sexo.pdf", width = 10, height = 8)
+barplot(freq.sex, horiz = TRUE, main = "Número de beneficiários por sexo", col = c("red", "green"))
+dev.off()
+
+```
+
+Ao relacionar as variáveis sexo e raça, observamos que as mulheres beneficiárias predominam em todas as raças, exceto quando a raça não foi informada (nesse caso, são 4 homens e 1 mulher):
+
+```{r, echo=FALSE}
+
+pdf("figures/sexo_raca.pdf", width = 10, height = 8)
+barplot(freq.sex.raca, main = "Número de beneficiários por sexo e raça", beside = TRUE, col = c("red","green"))
+legend("topright", legend = c("Feminino", "Masculino"), fill = c("red","green"))
+dev.off()
+
+```
+
+Sendo assim, percebe-se que a maior parte dos beneficiários é mulher parda, seguida de mulheres brancas, homens pardos e homens brancos.
+
+Ao analisar a variável raça isoladamente, verifica-se que a raça parda é a predominante dentre os beneficiários, seguida pela raça branca, preta, amarela e indígena:
+
+```{r, echo=FALSE}
+
+pdf("figures/raca.pdf", width = 10, height = 8)
+barplot(freq.raca, main = "Número de beneficiários por raça", ylim = c(0, 99000), col = c("chartreuse4", "seagreen", "mediumvioletred", "navyblue", "dodgerblue", "turquoise2"))
+dev.off()
+
+```
+
+Quanto à análise de dados referentes aos beneficiários com deficiência física, nota-se que eles são uma pequena parcela do total de beneficiários:
+
+```{r, echo=FALSE}
+
+pdf("figures/def_fisico.pdf", width = 10, height = 8)
+barplot(freq.def, horiz = TRUE, main = "Beneficiário é deficiente físico", col = c("blue", "orange"))
+dev.off()
+
+```
+
+Dessa forma, entende-se ser interessante filtrar somente os beneficiários com deficiência para fazer algumas análises combinadas com outras variáveis. No que se refere à raça, vê-se que a predominante dentre os beneficiários é a branca, seguida pela parda, preta e amarela:
+
+```{r, echo=FALSE}
+
+df %>% 
+  filter(Deficiente_Fisico == "Sim") %>%
+  mutate(Raca = fct_infreq(Raca)) %>% 
+  ggplot()+
+  geom_bar(aes(x = Raca), fill = c("seagreen", "dodgerblue", "turquoise2", "chartreuse4"))+
+  labs(x = "Raça", y = "Número de beneficiários")+
+  ggtitle("Beneficiários com deficiência física por raça")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggsave("figures/def_raca.pdf", width = 10, height = 8)
+
+```
+
+Verifica-se que a raça branca predomina dentre os beneficiários com deficiência, embora a raça predominante analisada individualmente seja a parda.
+
+Também é possível observar, ao analisar o gráfico referente ao sexo dos beneficiários com deficiência, uma dissonância quanto à variável sexo analisada isoladamente, haja vista que o sexo masculino predomina:
+
+```{r, echo=FALSE}
+
+df %>% 
+    filter(Deficiente_Fisico == "Sim") %>%
+    mutate(Sexo = fct_infreq(Sexo)) %>% 
+    ggplot()+
+    geom_bar(aes(x = Sexo), fill = c("red", "green"))+
+    labs(x = "Sexo", y = "Número de beneficiários")+
+    ggtitle("Beneficiários com deficiência física por sexo")+
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5))+
+  ggsave("figures/def_sexo.pdf", width = 10, height = 8)
+
+```
+
+
 
 ### Referências
 BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para Todos**. Disponível em: <http://prouniportal.mec.gov.br/>. Acesso em 18 jul. 2020.
