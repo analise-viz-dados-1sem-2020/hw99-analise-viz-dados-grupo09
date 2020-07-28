@@ -7,7 +7,7 @@ output: github_document
 ```{r, include=FALSE}
 # Espaco para instalacao e library de pacotes
 
-library(tidyverse); library(forcats)
+library(tidyverse); library(forcats); library(magrittr); library(dplyr); library(kableExtra)
 
 # Base de dados a ser utilizada com informações de bolsistas do ProUni
 
@@ -190,7 +190,31 @@ df %>%
 
 ```
 
+### Cursos Predominantes
 
+Os dados analisados trazem a relação dos cursos de cada um dos bolsistas do programa. A partir disso, questionamos a possibilidade de se analisar quais eram os cursos que mais recebiam bolsistas e se essa informação poderia suscitar maiores indagações ou apresentar qualquer padrão.
+
+Abaixo estão os 10 cursos que mais receberam bolsas:
+```{r, echo=FALSE}
+
+dados <- read.csv("data/pda-prouni-2019.csv", h = T, sep = ";", encoding = "UTF-8")
+Cursos_Predominantes <- dados %>% 
+  na.omit() %>%                #Retirando linhas em branco
+  count(NOME_CURSO_BOLSA) %>% 
+  arrange(desc(n)) %>% 
+  head(n = 10) 
+
+#Renomeando Colunas
+colnames(Cursos_Predominantes) <- c("Cursos", "Bolsas Concedidas")
+Cursos_Predominantes %>% 
+  kable()
+
+
+```
+
+Verifica-se, portanto, que os cursos predominantes são de áreas diversas, e que não seguem um padrão ou tendência observável, o que, naturalmente, é benéfico para uma politica pública que tem o intuito de ser inclusiva.
+
+Todavia, é importante salientar que os dados colocam limitações para análise: necessitam de padronização, uma vez que foram encontrados diversas grafias para um mesmo curso (que incluíam até mesmo as localidades dos campus onde são lecionados) e encontramos diversas linhas em branco, sem qualquer informação.
 
 ### Referências
 BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para Todos**. Disponível em: <http://prouniportal.mec.gov.br/>. Acesso em 18 jul. 2020.
