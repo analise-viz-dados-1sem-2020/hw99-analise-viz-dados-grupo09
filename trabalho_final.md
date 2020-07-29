@@ -109,6 +109,258 @@ analisada isoladamente, haja vista que o sexo masculino predomina:
 
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
+### Distribuição Geográfica
+
+Diante da disponibilidade dos dados dos municípios, UF’s e regiões
+relativas à origem dos beneficiários das bolsas, podemos analisar a
+distribuição da concessão dessas ao redor do país, a partir de
+diferentes pontos.
+
+Primeiramente, é possível perceber os beneficiários originários de
+capitais é quase insignificante comparado aos demais municípios.
+
+    ## `summarise()` regrouping output by 'Municipio', 'UF' (override with `.groups` argument)
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+Quanto aos beneficiários por UF e Região, observa-se as seguintes
+distribuições:
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+    ## `summarise()` regrouping output by 'UF' (override with `.groups` argument)
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
+
+É possível perceber que as regiões com maior volume de bolsas concedidas
+são a Nordeste e a Sudeste, respectivamente, ambas com mais de 1.500
+beneficiários, ao passo que a região Sul fica em terceiro lugar com mais
+de 1.000 e a Centro-Oeste e a Norte ficam por último e bem distantes das
+demais, com 400 e 395, respectivamente.
+
+Quanto aos estados, Minas Gerais apresenta o maior número de bolsas, com
+aproximadamente 800, seguido de São Paulo, com aproximadamente 600, o
+que explica a colocação da região Sudeste. Por outro lado, O Distrito
+Federal (Centro-Oeste) fica em última posição, com apenas uma bolsa, ao
+passo que as próximas 5 UFs com menor número correspondem a 5 das 7 UFs
+que compõem a região Norte, o que também explica a posição dessa região.
+
+Porém, os valores absolutos das regiões e dos estados podem ser
+decorrentes das diferenças demográficas entre eles, de maneira que é
+mais pertinente a análise da distribuição relativa.
+
+### Cursos Predominantes
+
+Os dados analisados trazem a relação dos cursos de cada um dos bolsistas
+do programa. A partir disso, questionamos a possibilidade de se analisar
+quais eram os cursos que mais recebiam bolsistas e se essa informação
+poderia suscitar maiores indagações ou apresentar qualquer padrão.
+
+Abaixo estão os 10 cursos que mais receberam bolsas:
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Cursos
+
+</th>
+
+<th style="text-align:right;">
+
+Bolsas Concedidas
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Administração
+
+</td>
+
+<td style="text-align:right;">
+
+18884
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Pedagogia
+
+</td>
+
+<td style="text-align:right;">
+
+17076
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Direito
+
+</td>
+
+<td style="text-align:right;">
+
+16983
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Ciências Contábeis
+
+</td>
+
+<td style="text-align:right;">
+
+11337
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Enfermagem
+
+</td>
+
+<td style="text-align:right;">
+
+9293
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Educação Física
+
+</td>
+
+<td style="text-align:right;">
+
+9230
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Psicologia
+
+</td>
+
+<td style="text-align:right;">
+
+7140
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Gestão De Recursos Humanos
+
+</td>
+
+<td style="text-align:right;">
+
+6048
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Engenharia Civil
+
+</td>
+
+<td style="text-align:right;">
+
+5966
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Fisioterapia
+
+</td>
+
+<td style="text-align:right;">
+
+5518
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+Verifica-se, portanto, que os cursos predominantes são de áreas
+diversas, e que não seguem um padrão ou tendência observável, o que,
+naturalmente, é benéfico para uma politica pública que tem o intuito de
+ser inclusiva.
+
+Todavia, é importante salientar que os dados colocam limitações para
+análise: necessitam de padronização, uma vez que foram encontrados
+diversas grafias para um mesmo curso (que incluíam até mesmo as
+localidades dos campus onde são lecionados) e encontramos diversas
+linhas em branco, sem qualquer informação.
+
 ### Referências
 
 BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para

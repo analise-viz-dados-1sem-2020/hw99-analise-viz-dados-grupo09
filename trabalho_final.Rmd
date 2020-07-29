@@ -7,7 +7,8 @@ output: github_document
 ```{r, include=FALSE}
 # Espaco para instalacao e library de pacotes
 
-library(tidyverse); library(forcats); library(magrittr); library(dplyr); library(kableExtra)
+library(tidyverse); library(forcats); library(magrittr); library(dplyr); 
+library(kableExtra); 
 
 # Base de dados a ser utilizada com informações de bolsistas do ProUni
 
@@ -15,9 +16,11 @@ df <- read.csv("data/pda-prouni-2019.csv", h = T, sep = ";", encoding = "UTF-8")
 
 # Mudando o nome das colunas
 
-names(df) <- c("Ano_de_Concessao_da_Bolsa", "Codigo_da_Universidade", "Universidade",
-                  "Tipo_de_bolsa", "Modalidade_de_Ensino", "Curso", "Turno", "CPF_do_Beneficiario",
-                  "Sexo", "Raca", "Data_de_Nascimento", "Deficiente_Fisico", "Regiao", "UF", "Municipio")
+names(df) <- c("Ano_de_Concessao_da_Bolsa", "Codigo_da_Universidade", 
+               "Universidade", "Tipo_de_bolsa", "Modalidade_de_Ensino", "Curso",
+               "Turno", "CPF_do_Beneficiario","Sexo", "Raca", 
+               "Data_de_Nascimento", "Deficiente_Fisico", "Regiao", "UF", 
+               "Municipio")
 
 # Transformar os dados em factor permite verificar quantos niveis a variavel tem
 # Fazendo isso apenas com as variaveis com muitos niveis
@@ -29,7 +32,8 @@ df$Data_de_Nascimento <- as.Date(df$Data_de_Nascimento, format = "%d/%m/%Y")
 str(df)
 
 # Calculando a idade
-df$Idade <- as.numeric(difftime(c("2019-12-31"),df$Data_de_Nascimento, units = "weeks"))/52.25
+df$Idade <- as.numeric(difftime(c("2019-12-31"),df$Data_de_Nascimento, 
+                                units = "weeks"))/52.25
 df$Idade <- floor(df$Idade)
 
 # Criando o df sem o outlier (pessoa com 11 anos)
@@ -39,11 +43,15 @@ df2 <- df[(-219394),]
 summary(df$Idade)
 df$Faixa_Etaria <- cut(df$Idade, c(10,15,20,25,30,35,40,45,50,55,60,65,70,100), 
                           labels = c("11 a 15", "16 a 20","21 a 25", "26 a 30",
-                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", "51 a 55",                                     "56 a 60", "61 a 65", "66 a 70", "71+" ))
+                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", 
+                                     "51 a 55", "56 a 60", "61 a 65", "66 a 70", 
+                                     "71+" ))
 
 df2$Faixa_Etaria <- cut(df2$Idade, c(15,20,25,30,35,40,45,50,55,60,65,70,100), 
                           labels = c("16 a 20","21 a 25", "26 a 30",
-                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", "51 a                                       55", "56 a 60", "61 a 65", "66 a 70", "71+" ))
+                                     "31 a 35","36 a 40", "41 a 45", "46 a 50", 
+                                     "51 a 55", "56 a 60", "61 a 65", "66 a 70",
+                                     "71+" ))
 
 # Identificando os valores NA e removendo da base
 df <- na.omit(df)
@@ -189,6 +197,65 @@ df %>%
   ggsave("figures/def_sexo.pdf", width = 10, height = 8)
 
 ```
+
+### Distribuição Geográfica
+
+Diante da disponibilidade dos dados dos municípios, UF's e regiões relativas à origem dos beneficiários das bolsas, podemos analisar a distribuição da concessão dessas ao redor do país, a partir de diferentes pontos.
+
+Primeiramente, é possível perceber os beneficiários originários de capitais é quase insignificante comparado aos demais municípios.
+
+```{r, echo=FALSE}
+
+# Agrupando as bolsas por Município
+mun <- df %>%
+  group_by(Municipio, UF, Regiao) %>%
+  summarise(Bolsas = n())
+
+mun$UF <- as.character(mun$UF)
+mun$Regiao <- as.character(mun$Regiao)
+
+# Bolsas em capitais
+mun <- mutate(mun, CAPITAL = ifelse( Municipio == 'RIO BRANCO' | Municipio == 'MACEIO' | Municipio == 'MACAPA' | Municipio == 'MANAUS' | Municipio == 'SALVADOR' | Municipio == 'FORTALEZA' | Municipio == 'BRASILIA' | Municipio == 'VITORIA' | Municipio == 'GOIANIA' |   Municipio == 'SAO LUIS' | Municipio == 'CUIABA' | Municipio == 'CAMPO GRANDE' | Municipio == 'BELO HORIZONTE' | Municipio == 'BELEM' | Municipio == 'JOAO PESSOA' | Municipio == 'CURITIBA' | Municipio == 'RECIFE' | Municipio == 'TERESINA' | Municipio == 'RIO DE JANEIRO' | Municipio == 'NATAL' | Municipio == 'PORTO ALEGRE' |Municipio == 'PORTO VELHO' | Municipio == 'CURITIBA' | Municipio == 'BOA VISTA' |  Municipio == 'FLORIANOPOLIS' | Municipio == 'SAO PAULO' | Municipio == 'ARACAJU' | Municipio == 'PALMAS', "SIM", "NAO"))
+
+caps <- mun %>%
+  group_by(CAPITAL) %>%
+  summarise(Bolsas = n())
+
+pie(caps$Bolsas, radius = 1, labels = c("Demais municípios", "Capitais"), col = c(5,2), main = 'Distribuição das bolsas entre municípios')
+
+```
+
+Quanto aos beneficiários por UF e Região, observa-se as seguintes distribuições:
+
+```{r, echo=FALSE}
+
+# Bolsas por região
+reg <- mun %>%
+  group_by(Regiao) %>%
+  summarise(Bolsas = n())
+
+reg %>%
+  ggplot()+
+  geom_col(aes(x = Regiao, y = Bolsas, fill = Regiao)) +
+  labs (title = 'Total de bolsas por região')
+
+# Bolsas por UF
+ufs <- mun %>%
+  group_by(UF, Regiao) %>%
+  summarise(Bolsas = n())
+
+ufs %>%
+  ggplot()+
+  geom_col(aes(x = UF, y = Bolsas, fill = Regiao)) +
+  labs (title = 'Total de bolsas por UF')
+
+```
+
+É possível perceber que as regiões com maior volume de bolsas concedidas são a Nordeste e a Sudeste, respectivamente, ambas com mais de 1.500 beneficiários, ao passo que a região Sul fica em terceiro lugar com mais de 1.000 e a Centro-Oeste e a Norte ficam por último e bem distantes das demais, com 400 e 395, respectivamente.
+
+Quanto aos estados, Minas Gerais apresenta o maior número de bolsas, com aproximadamente 800, seguido de São Paulo, com aproximadamente 600, o que explica a colocação da região Sudeste. Por outro lado, O Distrito Federal (Centro-Oeste) fica em última posição, com apenas uma bolsa, ao passo que as próximas 5 UFs com menor número correspondem a 5 das 7 UFs que compõem a região Norte, o que também explica a posição dessa região em último lugar. 
+
+Porém, os valores absolutos das regiões e dos estados podem ser decorrentes das diferenças demográficas entre eles, de maneira que é mais pertinente a análise da distribuição relativa.
 
 ### Cursos Predominantes
 
