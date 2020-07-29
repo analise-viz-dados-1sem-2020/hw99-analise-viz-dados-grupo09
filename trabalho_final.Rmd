@@ -262,6 +262,7 @@ Porém, os valores absolutos das regiões e dos estados podem ser decorrentes da
 Os dados analisados trazem a relação dos cursos de cada um dos bolsistas do programa. A partir disso, questionamos a possibilidade de se analisar quais eram os cursos que mais recebiam bolsistas e se essa informação poderia suscitar maiores indagações ou apresentar qualquer padrão.
 
 Abaixo estão os 10 cursos que mais receberam bolsas:
+
 ```{r, echo=FALSE}
 
 dados <- read.csv("data/pda-prouni-2019.csv", h = T, sep = ";", encoding = "UTF-8")
