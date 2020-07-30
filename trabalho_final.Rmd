@@ -202,9 +202,7 @@ df %>%
 
 Diante da disponibilidade dos dados dos municípios, UF's e regiões relativas à origem dos beneficiários das bolsas, podemos analisar a distribuição da concessão dessas ao redor do país, a partir de diferentes pontos.
 
-Primeiramente, é possível perceber os beneficiários originários de capitais é quase insignificante comparado aos demais municípios.
-
-```{r, echo=FALSE}
+```{r, include=FALSE}
 
 # Agrupando as bolsas por Município
 mun <- df %>%
@@ -214,8 +212,50 @@ mun <- df %>%
 mun$UF <- as.character(mun$UF)
 mun$Regiao <- as.character(mun$Regiao)
 
+```
+
+A distribuição dos beneficiários por Região apresenta o seguinte arranjo:
+
+```{r, echo=FALSE}
+
+# Bolsas por região
+reg <- mun %>%
+  group_by(Regiao) %>%
+  summarise(Bolsas_Reg = sum(Bolsas))
+
+reg %>%
+  ggplot()+
+  geom_col(aes(x = Regiao, y = Bolsas_Reg, fill = Regiao)) +
+  labs (y= 'Bolsas', title = 'Total de bolsas por região') 
+
+```
+
+É possível perceber que a região Sudeste concentra o maior número de bolsas concedidas, com mais de 100.000 no total, o que é mais que o dobro da segunda colocada, o Nordeste, com apresentou pouco menos de 50.000, e que, por sua vez, ultrapassa as duas últimas colocadas, Norte e Centro-Oeste (que ficam próximos de um empate pelo último lugar, com aproximadamente 20.000 cada) somadas. A região Sul ficou na posição mediana, com aproximadamente 35.000 bolsas. 
+
+Tal cenário pode ser melhor entendido se analisamos também a distribuição entre os estados do país:
+
+```{r, echo=FALSE}
+
+# Bolsas por UF
+ufs <- mun %>%
+  group_by(UF, Regiao) %>%
+  summarise(Bolsas_UF = sum(Bolsas))
+
+ufs %>%
+  ggplot()+
+  geom_col(aes(x = UF, y = Bolsas_UF, fill = Regiao)) +
+  labs (y= 'Bolsas', title = 'Total de bolsas por UF')
+
+```
+
+Os dois primeiros colocados explicam a posição da região Sudeste, uma vez que correspondem a São Paulo (com muito destaque, totalizando quase 60.000 bolsas, o que supera qualquer uma das demais regiões como um todo) e, em segundo lugar, Minas Gerais (cerca de 25.000, ou seja, mais que o Norte ou o Centro-Oeste do país, sozinho), além do Rio de Janeiro, que ocupa a 5a posição. Por sua vez, as três últimas UFs no ranking são Roraima, Amapá e Acre, pertencentes ao Norte, o que também justifica a baixa colocação dessa região.
+
+Diante do destaque de regiões mais populosas em relação ao volume de bolsas, consideramos relevante observar os valores também entre beneficiários originários de capitais comparado aos demais municípios, contudo, observa-se que prevalecem largamente os segundos:
+
+```{r, echo=FALSE}
+
 # Bolsas em capitais
-mun <- mutate(mun, CAPITAL = ifelse( Municipio == 'RIO BRANCO' | Municipio == 'MACEIO' | Municipio == 'MACAPA' | Municipio == 'MANAUS' | Municipio == 'SALVADOR' | Municipio == 'FORTALEZA' | Municipio == 'BRASILIA' | Municipio == 'VITORIA' | Municipio == 'GOIANIA' |   Municipio == 'SAO LUIS' | Municipio == 'CUIABA' | Municipio == 'CAMPO GRANDE' | Municipio == 'BELO HORIZONTE' | Municipio == 'BELEM' | Municipio == 'JOAO PESSOA' | Municipio == 'CURITIBA' | Municipio == 'RECIFE' | Municipio == 'TERESINA' | Municipio == 'RIO DE JANEIRO' | Municipio == 'NATAL' | Municipio == 'PORTO ALEGRE' |Municipio == 'PORTO VELHO' | Municipio == 'CURITIBA' | Municipio == 'BOA VISTA' |  Municipio == 'FLORIANOPOLIS' | Municipio == 'SAO PAULO' | Municipio == 'ARACAJU' | Municipio == 'PALMAS', "SIM", "NAO"))
+mun <- mutate(mun, CAPITAL = ifelse(Municipio == 'RIO BRANCO' & UF=='AC' | Municipio == 'MACEIO' | Municipio == 'MACAPA' | Municipio == 'MANAUS' | Municipio == 'SALVADOR' | Municipio == 'FORTALEZA' | Municipio == 'BRASILIA' | Municipio == 'VITORIA' | Municipio == 'GOIANIA' |   Municipio == 'SAO LUIS' | Municipio == 'CUIABA' | Municipio == 'CAMPO GRANDE' & UF=='MS' | Municipio == 'BELO HORIZONTE' | Municipio == 'BELEM' & UF=='PA' | Municipio == 'JOAO PESSOA' | Municipio == 'CURITIBA' | Municipio == 'RECIFE' | Municipio == 'TERESINA' | Municipio == 'RIO DE JANEIRO' | Municipio == 'NATAL' | Municipio == 'PORTO ALEGRE' |Municipio == 'PORTO VELHO' | Municipio == 'CURITIBA' | Municipio == 'BOA VISTA' & UF=='RR' |  Municipio == 'FLORIANOPOLIS' | Municipio == 'SAO PAULO' | Municipio == 'ARACAJU' | Municipio == 'PALMAS' & UF=='TO', "SIM", "NAO"))
 
 caps <- mun %>%
   group_by(CAPITAL) %>%
@@ -225,37 +265,14 @@ pie(caps$Bolsas, radius = 1, labels = c("Demais municípios", "Capitais"), col =
 
 ```
 
-Quanto aos beneficiários por UF e Região, observa-se as seguintes distribuições:
+Contudo, considerando que os valores absolutos das regiões e dos estados podem ser decorrentes das diferenças demográficas entre eles, percebe-se mais pertinente a análise da distribuição relativa das bolsas. 
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 
-# Bolsas por região
-reg <- mun %>%
-  group_by(Regiao) %>%
-  summarise(Bolsas = n())
+### Dados População
 
-reg %>%
-  ggplot()+
-  geom_col(aes(x = Regiao, y = Bolsas, fill = Regiao)) +
-  labs (title = 'Total de bolsas por região')
-
-# Bolsas por UF
-ufs <- mun %>%
-  group_by(UF, Regiao) %>%
-  summarise(Bolsas = n())
-
-ufs %>%
-  ggplot()+
-  geom_col(aes(x = UF, y = Bolsas, fill = Regiao)) +
-  labs (title = 'Total de bolsas por UF')
 
 ```
-
-É possível perceber que as regiões com maior volume de bolsas concedidas são a Nordeste e a Sudeste, respectivamente, ambas com mais de 1.500 beneficiários, ao passo que a região Sul fica em terceiro lugar com mais de 1.000 e a Centro-Oeste e a Norte ficam por último e bem distantes das demais, com 400 e 395, respectivamente.
-
-Quanto aos estados, Minas Gerais apresenta o maior número de bolsas, com aproximadamente 800, seguido de São Paulo, com aproximadamente 600, o que explica a colocação da região Sudeste. Por outro lado, O Distrito Federal (Centro-Oeste) fica em última posição, com apenas uma bolsa, ao passo que as próximas 5 UFs com menor número correspondem a 5 das 7 UFs que compõem a região Norte, o que também explica a posição dessa região em último lugar. 
-
-Porém, os valores absolutos das regiões e dos estados podem ser decorrentes das diferenças demográficas entre eles, de maneira que é mais pertinente a análise da distribuição relativa.
 
 ### Cursos Predominantes
 

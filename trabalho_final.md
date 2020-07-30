@@ -116,42 +116,49 @@ relativas à origem dos beneficiários das bolsas, podemos analisar a
 distribuição da concessão dessas ao redor do país, a partir de
 diferentes pontos.
 
-Primeiramente, é possível perceber os beneficiários originários de
-capitais é quase insignificante comparado aos demais municípios.
-
-    ## `summarise()` regrouping output by 'Municipio', 'UF' (override with `.groups` argument)
-
-    ## `summarise()` ungrouping output (override with `.groups` argument)
-
-![](trabalho_final_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
-
-Quanto aos beneficiários por UF e Região, observa-se as seguintes
-distribuições:
+A distribuição dos beneficiários por Região apresenta o seguinte
+arranjo:
 
     ## `summarise()` ungrouping output (override with `.groups` argument)
 
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
+É possível perceber que a região Sudeste concentra o maior número de
+bolsas concedidas, com mais de 100.000 no total, o que é mais que o
+dobro da segunda colocada, o Nordeste, com apresentou pouco menos de
+50.000, e que, por sua vez, ultrapassa as duas últimas colocadas, Norte
+e Centro-Oeste (que ficam próximos de um empate pelo último lugar, com
+aproximadamente 20.000 cada) somadas. A região Sul ficou na posição
+mediana, com aproximadamente 35.000 bolsas.
+
+Tal cenário pode ser melhor entendido se analisamos também a
+distribuição entre os estados do país:
+
     ## `summarise()` regrouping output by 'UF' (override with `.groups` argument)
 
-![](trabalho_final_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
+![](trabalho_final_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
-É possível perceber que as regiões com maior volume de bolsas concedidas
-são a Nordeste e a Sudeste, respectivamente, ambas com mais de 1.500
-beneficiários, ao passo que a região Sul fica em terceiro lugar com mais
-de 1.000 e a Centro-Oeste e a Norte ficam por último e bem distantes das
-demais, com 400 e 395, respectivamente.
+Os dois primeiros colocados explicam a posição da região Sudeste, uma
+vez que correspondem a São Paulo (com muito destaque, totalizando quase
+60.000 bolsas, o que supera qualquer uma das demais regiões como um
+todo) e, em segundo lugar, Minas Gerais (cerca de 25.000, ou seja, mais
+que o Norte ou o Centro-Oeste do país, sozinho), além do Rio de Janeiro,
+que ocupa a 5a posição. Por sua vez, as três últimas UFs no ranking são
+Roraima, Amapá e Acre, pertencentes ao Norte, o que também justifica a
+baixa colocação dessa região.
 
-Quanto aos estados, Minas Gerais apresenta o maior número de bolsas, com
-aproximadamente 800, seguido de São Paulo, com aproximadamente 600, o
-que explica a colocação da região Sudeste. Por outro lado, O Distrito
-Federal (Centro-Oeste) fica em última posição, com apenas uma bolsa, ao
-passo que as próximas 5 UFs com menor número correspondem a 5 das 7 UFs
-que compõem a região Norte, o que também explica a posição dessa região.
+Diante do destaque de regiões mais populosas em relação ao volume de
+bolsas, consideramos relevante observar os valores também entre
+beneficiários originários de capitais comparado aos demais municípios,
+contudo, observa-se que prevalecem largamente os segundos:
 
-Porém, os valores absolutos das regiões e dos estados podem ser
-decorrentes das diferenças demográficas entre eles, de maneira que é
-mais pertinente a análise da distribuição relativa.
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+Contudo, considerando que os valores absolutos das regiões e dos estados
+podem ser decorrentes das diferenças demográficas entre eles, percebe-se
+mais pertinente a análise da distribuição relativa das bolsas.
 
 ### Cursos Predominantes
 
