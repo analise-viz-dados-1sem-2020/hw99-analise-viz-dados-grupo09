@@ -217,8 +217,8 @@ mun$Regiao <- as.character(mun$Regiao)
 A distribuição dos beneficiários por Região apresenta o seguinte arranjo:
 
 ```{r, echo=FALSE}
-
 # Bolsas por região
+
 reg <- mun %>%
   group_by(Regiao) %>%
   summarise(Bolsas_Reg = sum(Bolsas))
@@ -226,7 +226,8 @@ reg <- mun %>%
 reg %>%
   ggplot()+
   geom_col(aes(x = Regiao, y = Bolsas_Reg, fill = Regiao)) +
-  labs (y= 'Bolsas', title = 'Total de bolsas por região') 
+  labs (y= 'Bolsas', title = 'Total de bolsas por região') +
+  ggsave("figures/distribuicao_regiao.pdf")
 
 ```
 
@@ -244,7 +245,8 @@ ufs <- mun %>%
 ufs %>%
   ggplot()+
   geom_col(aes(x = UF, y = Bolsas_UF, fill = Regiao)) +
-  labs (y= 'Bolsas', title = 'Total de bolsas por UF')
+  labs (y= 'Bolsas', title = 'Total de bolsas por UF') +
+  ggsave ("figures/distribuicao_uf.pdf")
 
 ```
 
@@ -271,8 +273,18 @@ Contudo, considerando que os valores absolutos das regiões e dos estados podem 
 
 ### Dados População
 
+pop <- readxl::read_excel("data/POP2019_20072020.xls", skip = 1, n_max = 33)
+pop <- pop[,c(1, 4, 3)]
+names(pop) <- c('BR_Reg_UF','UF','POP')
+
+ufs_pop <- na.omit(pop)
+ufs_pop <- left_join(ufs_pop, ufs, by="UF")
+
+pop_mun <- readxl::read_excel("data/POP2019_20072020.xls", sheet = 2, skip = 1, n_max = 5572)
+
 
 ```
+
 
 ### Cursos Predominantes
 

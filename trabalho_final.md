@@ -121,6 +121,8 @@ arranjo:
 
     ## `summarise()` ungrouping output (override with `.groups` argument)
 
+    ## Saving 7 x 5 in image
+
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 É possível perceber que a região Sudeste concentra o maior número de
@@ -135,6 +137,8 @@ Tal cenário pode ser melhor entendido se analisamos também a
 distribuição entre os estados do país:
 
     ## `summarise()` regrouping output by 'UF' (override with `.groups` argument)
+
+    ## Saving 7 x 5 in image
 
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
