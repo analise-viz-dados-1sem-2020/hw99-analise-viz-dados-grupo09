@@ -3,7 +3,7 @@ Trabalho Final
 Julia Marques, Letícia Dufloth, Pedro Paulo Polastri e Rodrigo Prates
 18/07/2020
 
-### Introdução
+## Introdução
 
 O presente trabalho se configura como o trabalho final da disciplina de
 Análise e Visualização de Dados com R, do Curso Superior de
@@ -32,7 +32,7 @@ As questões que orientarão as análises do presente trabalho são:
 
   - Quais os 10 cursos que recebem mais bolsistas ProUni?
 
-### Perfil dos bolsistas
+## Perfil dos bolsistas
 
 Os dados disponíveis na base permitem fazer análises interessantes
 quanto ao perfil dos beneficiários acerca do sexo, da faixa etária, da
@@ -109,19 +109,17 @@ analisada isoladamente, haja vista que o sexo masculino predomina:
 
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
-### Distribuição Geográfica
+## Distribuição Geográfica
 
 Diante da disponibilidade dos dados dos municípios, UF’s e regiões
 relativas à origem dos beneficiários das bolsas, podemos analisar a
 distribuição da concessão dessas ao redor do país, a partir de
 diferentes pontos.
 
-A distribuição dos beneficiários por Região apresenta o seguinte
+#### Distribuição entre regiões e UFs
+
+A distribuição dos beneficiários por região apresenta o seguinte
 arranjo:
-
-    ## `summarise()` ungrouping output (override with `.groups` argument)
-
-    ## Saving 7 x 5 in image
 
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
@@ -136,10 +134,6 @@ mediana, com aproximadamente 35.000 bolsas.
 Tal cenário pode ser melhor entendido se analisamos também a
 distribuição entre os estados do país:
 
-    ## `summarise()` regrouping output by 'UF' (override with `.groups` argument)
-
-    ## Saving 7 x 5 in image
-
 ![](trabalho_final_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 Os dois primeiros colocados explicam a posição da região Sudeste, uma
@@ -151,20 +145,79 @@ que ocupa a 5a posição. Por sua vez, as três últimas UFs no ranking são
 Roraima, Amapá e Acre, pertencentes ao Norte, o que também justifica a
 baixa colocação dessa região.
 
-Diante do destaque de regiões mais populosas em relação ao volume de
-bolsas, consideramos relevante observar os valores também entre
-beneficiários originários de capitais comparado aos demais municípios,
-contudo, observa-se que prevalecem largamente os segundos:
-
-    ## `summarise()` ungrouping output (override with `.groups` argument)
-
-![](trabalho_final_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
-
 Contudo, considerando que os valores absolutos das regiões e dos estados
 podem ser decorrentes das diferenças demográficas entre eles, percebe-se
 mais pertinente a análise da distribuição relativa das bolsas.
 
-### Cursos Predominantes
+Olhando dessa forma, percebe-se que já não há uma discrepância tão
+significativa entre as regiões, uma vez que o Centro-Oeste, o Sudeste e
+o Sul apresentam valores bem próximos, seguidos do Norte, e apenas o
+Nordeste se distancia mais dos demais.
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+Quanto a distribuição entre UFs, observa-se o seguinte cenário:
+
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |=====                                                                 |   7%  |                                                                              |========                                                              |  11%  |                                                                              |==========                                                            |  15%  |                                                                              |=============                                                         |  19%  |                                                                              |================                                                      |  22%  |                                                                              |==================                                                    |  26%  |                                                                              |=====================                                                 |  30%  |                                                                              |=======================                                               |  33%  |                                                                              |==========================                                            |  37%  |                                                                              |=============================                                         |  41%  |                                                                              |===============================                                       |  44%  |                                                                              |==================================                                    |  48%  |                                                                              |====================================                                  |  52%  |                                                                              |=======================================                               |  56%  |                                                                              |=========================================                             |  59%  |                                                                              |============================================                          |  63%  |                                                                              |===============================================                       |  67%  |                                                                              |=================================================                     |  70%  |                                                                              |====================================================                  |  74%  |                                                                              |======================================================                |  78%  |                                                                              |=========================================================             |  81%  |                                                                              |============================================================          |  85%  |                                                                              |==============================================================        |  89%  |                                                                              |=================================================================     |  93%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+Podemos afirmar que o Distrito Federal concentra o maior número de
+bolsas per capita. Também é notável que, o Acre e o Amapá, que estiveram
+entre os piores valores absolutos observados, dessa vez destacam-se
+entre os 4 maiores resultados, juntamente com Rondônia, sendo que todos
+esses se encontram na região Norte (que tinha sido também observada com
+um dos piores volumes totais). Dessa forma, interpreta-se que o baixo
+número de bolsas visto nesses locais decorre, na realidade, do volume
+populacional dos mesmos.
+
+Da mesma forma,percebe-se que a posição de São Paulo e Minas Gerais na
+análise dos números absolutos também decorre das discrepâncias
+populacionais, já que dessa vez esses estados tiveram valores médios.
+
+Por outro lado, observa-se que Roraima, que apresentou o menor valor
+absoluto, permanece também entre os dois estados com menor valor
+relativo, atrás apenas do estado do Alagoas.
+
+Ademais, podemos apontar que a UF com maior colocação de bolsas per
+capita (DF) encontra-se na região também primeiro colocada
+(Centro-Oeste), da mesma forma que a UF com pior colocação (Alagoas)
+está na região na mesma situação (Nordeste). Mais além, o mapa permite
+visualizar que na região Nordeste concentram-se em geral estados com
+valores relativamente baixos, o que explica a colocação dessa região
+abaixo das demais.
+
+#### Distribuição entre municípios
+
+Consideramos relevante analisar também a distribuição dos beneficiários
+do programa entre municípios com diferentes características.
+
+Primeiramente, buscamos comparar o volume de beneficiários originários
+de capitais com os de demais municípios. Observa-se que prevalecem
+largamente os segundos:
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+Podemos também observar a distribuição das bolsas entre municípios por
+porte. Para essa visualização, foram excluídas as metrópoles São Paulo e
+Rio de Janeiro, que se comportam como outliers nesse caso.
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+Dessa maneira, percebe-se certa relação entre a variação do número de
+bolsas conforme varia o número de habitantes de cada município.
+
+Por fim, ao analisarmos a distribuição relativa das bolsas entre
+municípios por porte, percebe-se que as cidades pequenas recebem
+proporcionalmente menos bolsas, ao passo que cidades médias e grandes
+apresentam proporções similares. Para tanto, considera-se cidade pequena
+aquela com menos de 100.000 habitantes, cidade média aquela com entre
+100.000 e 500.000 habitantes e cidade grande aquela com mais de 500.000
+habitantes.
+
+![](trabalho_final_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+## Cursos Predominantes
 
 Os dados analisados trazem a relação dos cursos de cada um dos bolsistas
 do programa. A partir disso, questionamos a possibilidade de se analisar
@@ -372,8 +425,12 @@ diversas grafias para um mesmo curso (que incluíam até mesmo as
 localidades dos campus onde são lecionados) e encontramos diversas
 linhas em branco, sem qualquer informação.
 
-### Referências
+## Referências
 
 BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para
 Todos**. Disponível em: <http://prouniportal.mec.gov.br/>. Acesso em 18
 jul. 2020.
+
+IBGE. **Estimativas de População**. Disponível em:
+<https://www.ibge.gov.br/estatisticas/sociais/populacao/9103-estimativas-de-populacao.html?=&t=downloads>.
+Acesso em:24 jul. 2020.

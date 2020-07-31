@@ -8,7 +8,7 @@ output: github_document
 # Espaco para instalacao e library de pacotes
 
 library(tidyverse); library(forcats); library(magrittr); library(dplyr); 
-library(kableExtra); 
+library(kableExtra)
 
 # Base de dados a ser utilizada com informações de bolsistas do ProUni
 
@@ -61,7 +61,7 @@ df2 <- na.omit(df2)
 
 ```
 
-### Introdução
+## Introdução
 
 O presente trabalho se configura como o trabalho final da disciplina de Análise e Visualização de Dados com R, do Curso Superior de Administração Pública da Escola de Governo Professor Paulo Neves de Carvalho da Fundação João Pinheiro, referente ao primeiro semestre de 2020. Neste trabalho, temos por objetivo analisar dados relativos às bolsas concedidas pelo ProUni (Programa Universidade para Todos), bem como o perfil de seus beneficiários.
 
@@ -75,7 +75,7 @@ As questões que orientarão as análises do presente trabalho são:
 
 - Quais os 10 cursos que recebem mais bolsistas ProUni?
 
-### Perfil dos bolsistas
+## Perfil dos bolsistas
 
 ```{r, include=FALSE}
 
@@ -198,7 +198,7 @@ df %>%
 
 ```
 
-### Distribuição Geográfica
+## Distribuição Geográfica
 
 Diante da disponibilidade dos dados dos municípios, UF's e regiões relativas à origem dos beneficiários das bolsas, podemos analisar a distribuição da concessão dessas ao redor do país, a partir de diferentes pontos.
 
@@ -214,9 +214,11 @@ mun$Regiao <- as.character(mun$Regiao)
 
 ```
 
-A distribuição dos beneficiários por Região apresenta o seguinte arranjo:
+#### Distribuição entre regiões e UFs
 
-```{r, echo=FALSE}
+A distribuição dos beneficiários por região apresenta o seguinte arranjo:
+
+```{r, echo=FALSE, message=FALSE}
 # Bolsas por região
 
 reg <- mun %>%
@@ -235,7 +237,7 @@ reg %>%
 
 Tal cenário pode ser melhor entendido se analisamos também a distribuição entre os estados do país:
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 
 # Bolsas por UF
 ufs <- mun %>%
@@ -252,9 +254,71 @@ ufs %>%
 
 Os dois primeiros colocados explicam a posição da região Sudeste, uma vez que correspondem a São Paulo (com muito destaque, totalizando quase 60.000 bolsas, o que supera qualquer uma das demais regiões como um todo) e, em segundo lugar, Minas Gerais (cerca de 25.000, ou seja, mais que o Norte ou o Centro-Oeste do país, sozinho), além do Rio de Janeiro, que ocupa a 5a posição. Por sua vez, as três últimas UFs no ranking são Roraima, Amapá e Acre, pertencentes ao Norte, o que também justifica a baixa colocação dessa região.
 
-Diante do destaque de regiões mais populosas em relação ao volume de bolsas, consideramos relevante observar os valores também entre beneficiários originários de capitais comparado aos demais municípios, contudo, observa-se que prevalecem largamente os segundos:
+Contudo, considerando que os valores absolutos das regiões e dos estados podem ser decorrentes das diferenças demográficas entre eles, percebe-se mais pertinente a análise da distribuição relativa das bolsas. 
 
-```{r, echo=FALSE}
+Olhando dessa forma, percebe-se que já não há uma discrepância tão significativa entre as regiões, uma vez que o Centro-Oeste, o Sudeste e o Sul apresentam valores bem próximos, seguidos do Norte, e apenas o Nordeste se distancia mais dos demais.
+
+```{r, echo=FALSE, message=FALSE}
+
+### Dados População
+
+pop <- readxl::read_excel("data/POP2019_20072020.xls", skip = 1, n_max = 33)
+pop <- pop[,c(1, 4, 3)]
+names(pop) <- c('BR_Reg_UF','UF','POP')
+pop <- mutate(pop, UF = trimws(pop$UF, whitespace = "[\\h\\v]"))
+pop <- na.omit(pop)
+
+ufs <- left_join(pop, ufs, by="UF")
+ufs <- mutate(ufs, Bolsas_Pop = Bolsas_UF*100000/POP)
+
+reg <- ufs %>%
+  group_by(Regiao) %>%
+  summarise(Bolsas_Reg = sum(Bolsas_UF), Pop = sum(POP))
+reg <- mutate(reg, Bolsas_Pop = Bolsas_Reg*100000/Pop)
+
+ggplot(reg)+
+  geom_col(aes(x = Regiao, y = Bolsas_Pop, fill = Regiao)) +
+  labs (title = 'Distribuição relativa de bolsas por região', y = 'Bolsas / 100.000 hab.' ) +
+  ggsave('Distribuição relativa de bolsas por região.png')
+
+```
+
+Quanto a distribuição entre UFs, observa-se o seguinte cenário:
+
+```{r, echo=FALSE, message=FALSE}
+
+library(sf)
+library(geobr)
+library(esquisse)
+
+# Mapa
+BR <- read_state(code_state = 'all')
+ufs <- merge(BR, ufs, by.x = 'abbrev_state', by.y='UF', all=TRUE)
+
+ggplot(ufs) +
+ aes(fill = Bolsas_Pop) +
+ geom_sf(size = 1L) +
+ scale_fill_distiller(palette = "BuGn") +
+ labs(title = "Distribuição relativa das bolsas por UF ", fill = "Bolsas / 100.000 hab.") +
+ theme_minimal()
+
+```
+
+Podemos afirmar que o Distrito Federal concentra o maior número de bolsas per capita. Também é notável que, o Acre e o Amapá, que estiveram entre os piores valores absolutos observados, dessa vez destacam-se entre os 4 maiores resultados, juntamente com Rondônia, sendo que todos esses se encontram na região Norte (que tinha sido também observada com um dos piores volumes totais). Dessa forma, interpreta-se que o baixo número de bolsas visto nesses locais decorre, na realidade, do volume populacional dos mesmos.
+
+Da mesma forma,percebe-se que a posição de São Paulo e Minas Gerais na análise dos números absolutos também decorre das discrepâncias populacionais, já que dessa vez esses estados tiveram valores médios.
+
+Por outro lado, observa-se que Roraima, que apresentou o menor valor absoluto, permanece também entre os dois estados com menor valor relativo, atrás apenas do estado do Alagoas. 
+
+Ademais, podemos apontar que a UF com maior colocação de bolsas per capita (DF) encontra-se na região também primeiro colocada (Centro-Oeste), da mesma forma que a UF com pior colocação (Alagoas) está na região na mesma situação (Nordeste). Mais além, o mapa permite visualizar que na região Nordeste concentram-se em geral estados com valores relativamente baixos, o que explica a colocação dessa região abaixo das demais. 
+
+#### Distribuição entre municípios
+
+Consideramos relevante analisar também a distribuição dos beneficiários do programa entre municípios com diferentes características. 
+
+Primeiramente, buscamos comparar o volume de beneficiários originários de capitais com os de demais municípios. Observa-se que prevalecem largamente os segundos:
+
+```{r, echo=FALSE, message=FALSE}
 
 # Bolsas em capitais
 mun <- mutate(mun, CAPITAL = ifelse(Municipio == 'RIO BRANCO' & UF=='AC' | Municipio == 'MACEIO' | Municipio == 'MACAPA' | Municipio == 'MANAUS' | Municipio == 'SALVADOR' | Municipio == 'FORTALEZA' | Municipio == 'BRASILIA' | Municipio == 'VITORIA' | Municipio == 'GOIANIA' |   Municipio == 'SAO LUIS' | Municipio == 'CUIABA' | Municipio == 'CAMPO GRANDE' & UF=='MS' | Municipio == 'BELO HORIZONTE' | Municipio == 'BELEM' & UF=='PA' | Municipio == 'JOAO PESSOA' | Municipio == 'CURITIBA' | Municipio == 'RECIFE' | Municipio == 'TERESINA' | Municipio == 'RIO DE JANEIRO' | Municipio == 'NATAL' | Municipio == 'PORTO ALEGRE' |Municipio == 'PORTO VELHO' | Municipio == 'CURITIBA' | Municipio == 'BOA VISTA' & UF=='RR' |  Municipio == 'FLORIANOPOLIS' | Municipio == 'SAO PAULO' | Municipio == 'ARACAJU' | Municipio == 'PALMAS' & UF=='TO', "SIM", "NAO"))
@@ -267,26 +331,47 @@ pie(caps$Bolsas, radius = 1, labels = c("Demais municípios", "Capitais"), col =
 
 ```
 
-Contudo, considerando que os valores absolutos das regiões e dos estados podem ser decorrentes das diferenças demográficas entre eles, percebe-se mais pertinente a análise da distribuição relativa das bolsas. 
+Podemos também observar a distribuição das bolsas entre municípios por porte. Para essa visualização, foram excluídas as metrópoles São Paulo e Rio de Janeiro, que se comportam como outliers nesse caso.
 
-```{r, include=FALSE}
-
-### Dados População
-
-pop <- readxl::read_excel("data/POP2019_20072020.xls", skip = 1, n_max = 33)
-pop <- pop[,c(1, 4, 3)]
-names(pop) <- c('BR_Reg_UF','UF','POP')
-
-ufs_pop <- na.omit(pop)
-ufs_pop <- left_join(ufs_pop, ufs, by="UF")
+``` {r, echo=FALSE, message=FALSE}
 
 pop_mun <- readxl::read_excel("data/POP2019_20072020.xls", sheet = 2, skip = 1, n_max = 5572)
+pop_mun <- pop_mun[,c(1,4,5)]
 
+# Padronizando o nome dos municípios
+pop_mun$`NOME DO MUNICÍPIO` <- toupper(pop_mun$`NOME DO MUNICÍPIO`)
+pop_mun$`NOME DO MUNICÍPIO` <- chartr("ÁÉÍÓÚÂÊÔÃÇ'", "AEIOUAEOAC ", pop_mun$`NOME DO MUNICÍPIO`)
+names(pop_mun) <- c("UF","Municipio","Pop")
+
+mun <- left_join(mun, pop_mun, by=c("Municipio","UF"))
+mun <- na.omit(mun)
+mun <- mutate(mun, Porte = ifelse(Pop<100000, "Cidade pequena", ifelse(Pop<500000, "Cidade média", "Cidade grande")))
+
+mun %>%
+  filter(Municipio != 'SAO PAULO' & Municipio != 'RIO DE JANEIRO') %>%
+  ggplot() +
+  geom_point(aes(x= Pop, y = Bolsas, color = Porte)) +
+  labs(y = 'População', title = 'Bolsas por porte dos municípios')
+
+```
+
+Dessa maneira, percebe-se certa relação entre a variação do número de bolsas conforme varia o número de habitantes de cada município.
+
+Por fim, ao analisarmos a distribuição relativa das bolsas entre municípios por porte, percebe-se que as cidades pequenas recebem proporcionalmente menos bolsas, ao passo que cidades médias e grandes apresentam proporções similares. Para tanto, considera-se cidade pequena aquela com menos de 100.000 habitantes, cidade média aquela com entre 100.000 e 500.000 habitantes e cidade grande aquela com mais de 500.000 habitantes. 
+
+``` {r, echo=FALSE, message=FALSE}
+
+mun_porte <- mun %>%
+  group_by(Porte)%>%
+  summarise(Bolsas = sum(Bolsas), Pop = sum(Pop))
+mun_porte <- mutate(mun_porte, Bolsas_Pop = Bolsas*100000/Pop)
+
+pie(mun_porte$Bolsas_Pop, radius = 1, labels = mun_porte$Porte, main = 'Distribuição das bolsas per capita entre municípios')
 
 ```
 
 
-### Cursos Predominantes
+## Cursos Predominantes
 
 Os dados analisados trazem a relação dos cursos de cada um dos bolsistas do programa. A partir disso, questionamos a possibilidade de se analisar quais eram os cursos que mais recebiam bolsistas e se essa informação poderia suscitar maiores indagações ou apresentar qualquer padrão.
 
@@ -313,5 +398,8 @@ Verifica-se, portanto, que os cursos predominantes são de áreas diversas, e qu
 
 Todavia, é importante salientar que os dados colocam limitações para análise: necessitam de padronização, uma vez que foram encontrados diversas grafias para um mesmo curso (que incluíam até mesmo as localidades dos campus onde são lecionados) e encontramos diversas linhas em branco, sem qualquer informação.
 
-### Referências
+## Referências
+
 BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para Todos**. Disponível em: <http://prouniportal.mec.gov.br/>. Acesso em 18 jul. 2020.
+
+IBGE. **Estimativas de População**. Disponível em: <https://www.ibge.gov.br/estatisticas/sociais/populacao/9103-estimativas-de-populacao.html?=&t=downloads>. Acesso em:24 jul. 2020.
