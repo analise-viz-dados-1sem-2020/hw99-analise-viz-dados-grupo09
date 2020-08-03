@@ -425,7 +425,7 @@ diversas grafias para um mesmo curso (que incluíam até mesmo as
 localidades dos campus onde são lecionados) e encontramos diversas
 linhas em branco, sem qualquer informação.
 
-##Limitações e dificuldades operacionais
+## Limitações e dificuldades operacionais
 
 Nas etapas de tratamento e análise dos dados, foram encontradas 
 limitações e dificuldades operacionais relativas à base de dados
@@ -458,8 +458,8 @@ ser criadas mais colunas na database para fins de inclusão de
 instituições, turnos, campus, modalidades e afins. Dado que
 não houve essa preocupação na elaboração dos campos referentes
 à base de dados, foram registrados um total de 1724 cursos
-diferentes, de forma que um mesmo curso - por exemplo, Letras
-- possa aparecer sob diversas formas de registro, sendo
+diferentes, de forma que um mesmo curso - por exemplo, Letras-
+possa aparecer sob diversas formas de registro, sendo
 contabilizados separadamente, a despeito de representarem
 o mesmo curso.
 
@@ -468,8 +468,8 @@ colheita dos dados, uma vez que não há padronização entre as
 bases de dados, tanto em relação às unidades federativas, 
 quanto em relação aos municípios. Embora não represente uma
 limitação às análises a ausência de padronização no registro
-das unidades federativas - entre siglas e registros por extenso
-- dado que foi possível fazer um ajuste e padronizá-la, no que
+das unidades federativas - entre siglas e registros por extenso-
+dado que foi possível fazer um ajuste e padronizá-la, no que
 tange aos municípios não foi possível realizar ajuste análogo,
 uma vez que são milhares de municípios - e as UF são apenas 27.
 Destarte, foram excluídos 96 municípios da análise, dada a 
