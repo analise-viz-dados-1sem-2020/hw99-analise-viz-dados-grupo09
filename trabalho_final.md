@@ -425,6 +425,57 @@ diversas grafias para um mesmo curso (que incluíam até mesmo as
 localidades dos campus onde são lecionados) e encontramos diversas
 linhas em branco, sem qualquer informação.
 
+##Limitações e dificuldades operacionais
+
+Nas etapas de tratamento e análise dos dados, foram encontradas 
+limitações e dificuldades operacionais relativas à base de dados
+escolhida. A presente seção tem, portanto, a finalidade de apresentar
+essas intempéries.
+
+A primeira dificuldade operacional consiste na identificação de 
+um provável erro de registro, mencionado como ___outlier___ ao longo
+da análise. Esse erro se encontra na idade de uma das pessoas 
+beneficiárias, que de acordo com a base de dados teria 11 anos, 
+mas é sabido que o ProUni destina a concessão de benefícios apenas
+para o seu público alvo, em idade universitária. Assim, entende-se
+que a melhor opção, tendo em vista a manipulação dos dados de 
+faixa etária, é a exclusão desse indivíduo para produzir uma 
+análise sem essa distorção, proveniente de um provável equívoco,
+sem que os dados referentes a outros critérios fossem igualmente
+desconsiderados, por não serem considerados equivocados.
+
+Em segundo lugar, há um total de 15477 linhas vazias percebidas
+ao importar a base de dados do Excel para o R, de forma que os
+dados referentes às dimensões da database representassem valores
+errôneos, cujo ajuste demandou ao grupo a exclusão dessas linhas
+vazias, sem valor aproveitável para a análise dos dados.
+
+Além disso, verifica-se um hiato de padronização em dois 
+critérios imprescindíveis para as análises propostas: os
+cursos e as populações. No tocante aos cursos, observa-se
+que há um registro com excesso de detalhamento, em que poderiam
+ser criadas mais colunas na database para fins de inclusão de
+instituições, turnos, campus, modalidades e afins. Dado que
+não houve essa preocupação na elaboração dos campos referentes
+à base de dados, foram registrados um total de 1724 cursos
+diferentes, de forma que um mesmo curso - por exemplo, Letras
+- possa aparecer sob diversas formas de registro, sendo
+contabilizados separadamente, a despeito de representarem
+o mesmo curso.
+
+No que se refere às populações, salienta-se a dificuldade de
+colheita dos dados, uma vez que não há padronização entre as
+bases de dados, tanto em relação às unidades federativas, 
+quanto em relação aos municípios. Embora não represente uma
+limitação às análises a ausência de padronização no registro
+das unidades federativas - entre siglas e registros por extenso
+- dado que foi possível fazer um ajuste e padronizá-la, no que
+tange aos municípios não foi possível realizar ajuste análogo,
+uma vez que são milhares de municípios - e as UF são apenas 27.
+Destarte, foram excluídos 96 municípios da análise, dada a 
+impossibilidade de incluí-los com dados fora do padrão em que
+o presente trabalho se baliza.
+
 ## Referências
 
 BRASIL. Ministério da Educação. **ProUni - Programa Universidade Para
