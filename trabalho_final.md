@@ -3,7 +3,7 @@ Trabalho Final
 Julia Marques, Letícia Dufloth, Pedro Paulo Polastri e Rodrigo Prates
 18/07/2020
 
-## Introdução
+## Introdução e descrição da base de dados
 
 O presente trabalho se configura como o trabalho final da disciplina de
 Análise e Visualização de Dados com R, do Curso Superior de
@@ -22,7 +22,15 @@ até 3 salários mínimos. Além disso, é necessário que o aluno não tenha
 diploma de ensino superior, e que tenha realizado o Exame Nacional do
 Ensino Médio (ENEM) mais recente (BRASIL, 2020).
 
-As questões que orientarão as análises do presente trabalho são:
+A base de dados, em que cada linha corresponde a um beneficário, contempla
+as seguintes colunas: CPF, data de nascimento, sexo, raça, existência ou
+não de deficiência, município, unidade federativa a qual o município
+pertence, curso, turno do curso e modalidade do curso - EaD ou presencial.
+Destaca-se que na coluna curso, há alguns registros redundantes, por
+exemplo, "Letras EaD", sendo que já existe uma coluna que trata da
+informação referente a modalidade. 
+
+Com efeito, as questões que orientarão as análises do presente trabalho são:
 
   - Qual o perfil demográfico dos bolsistas, no que se refere a gênero,
     raça, faixa etária e existência de deficiência?
